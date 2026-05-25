@@ -8,6 +8,7 @@ public class IngressServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IngressServiceApplication.class, args);
+
 	}
 
 }
