@@ -1,3 +1,6 @@
 [submodule "src/main/resources/dto"]
 	path = src/main/resources/dto
 	url = https://github.com/Sajal-Prince/project-pay-dto.git
+[submodule "src/main/java/dto"]
+	path = src/main/java/dto
+	url = https://github.com/Sajal-Prince/project-pay-dto.git
