@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IngressRepository extends JpaRepository<@NonNull Transactions,@NonNull String> {
+    boolean existsByIdempotencyKey(String idempotencyKey);
 }
