@@ -1,6 +1,7 @@
 package com.projectpay.ingress_service.services;
 
 import org.projectpay.dtos.TransactionPayloadDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -10,4 +11,6 @@ public interface IngressService {
     void transactionInitiated(String transactionId, TransactionPayloadDTO transactionPayloadDTO, String idempotencyKey);
 
     boolean isIdempotencyDuplicate(String idempotencyKey);
+
+    ResponseEntity<?> getTransactionStatus(String transactionId);
 }
