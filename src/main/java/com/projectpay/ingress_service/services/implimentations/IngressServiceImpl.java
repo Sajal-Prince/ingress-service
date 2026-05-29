@@ -6,6 +6,7 @@ import com.projectpay.ingress_service.repositories.IngressRepository;
 import com.projectpay.ingress_service.services.IngressService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.projectpay.dtos.TransactionPayloadDTO;
 import org.projectpay.dtos.TransactionStatus;
 import org.projectpay.enums.Status;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class IngressServiceImpl implements IngressService {
     private final IngressRepository ingressRepository;
     private final KafkaTemplate<@NonNull String,@NonNull Object> kafkaTemplate;
@@ -37,7 +39,14 @@ public class IngressServiceImpl implements IngressService {
         ingressRepository.save(transactions);
 
 
-        kafkaTemplate.send("payment-initiated-topic",transactionId,transactionPayloadDTO);
+        kafkaTemplate.send("payment-initiated-topic",transactionId,transactionPayloadDTO)
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("Message sent successfully to offset: {}", result.getRecordMetadata().offset());
+                    } else {
+                        log.error("Failed to send message: {}", ex.getMessage());
+                    }
+                });
     }
 
     @Override
