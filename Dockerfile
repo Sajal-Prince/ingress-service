@@ -20,6 +20,8 @@ RUN mvn clean install -f project-pay-dto/submodule-dto/pom.xml -DskipTests
 # 6. Build the main ingress-service
 RUN mvn clean package -DskipTests
 
+COPY src/main/resources/client.truststore.jks /app/certs/client.truststore.jks
+
 # Stage 2: Minimal Runtime
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
